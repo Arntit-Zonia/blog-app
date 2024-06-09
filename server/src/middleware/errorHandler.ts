@@ -17,9 +17,11 @@ interface ICustomError extends Error {
  * @param {Function} _next - next middleware function in the stack (not used)
  */
 const errorHandler: IErrorHandler = (err: ICustomError, _req, res, _next) => {
-  console.error({ err });
+  const errorMessage = err.message || "Internal Server Error";
 
-  res.status(err.status || 500).send({ error: err.message });
+  console.error(errorMessage);
+
+  res.status(err.status || 500).send({ error: errorMessage });
 };
 
 export default errorHandler;

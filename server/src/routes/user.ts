@@ -1,9 +1,14 @@
 import express, { Router, Request, Response } from "express";
 
+import errorHandler from "../controllers/errorHandler";
+
 const router: Router = express.Router();
 
-router.get("/", (_req: Request, res: Response) => {
-  res.send("Serving Blog App");
-});
+router.get(
+  "/",
+  errorHandler(async (req: Request, res: Response) => {
+    res.send("Hello, World!");
+  })
+);
 
 export default router;

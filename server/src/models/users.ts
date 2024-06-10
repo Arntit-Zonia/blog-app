@@ -1,13 +1,9 @@
-import { Document, Schema, Model, model } from "mongoose";
+import { Schema, Model, model } from "mongoose";
 
 import validator from "validator";
 import bcrypt from "bcryptjs";
 
-interface IUserDocument extends Document {
-  username: string;
-  email: string;
-  password: string;
-}
+import { IUserDocument } from "../interfaces/user";
 
 interface IUserModel extends Model<IUserDocument> {}
 

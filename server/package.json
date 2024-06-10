@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec ts-node src/index.ts"
+    "start": "nodemon --exec ts-node src/index.ts",
+    "db:local": "mongod --config /opt/homebrew/etc/mongod.conf"
   },
   "keywords": [],
   "author": "",

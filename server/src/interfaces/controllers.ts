@@ -1,5 +1,7 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
+
+import { IAuthenticatedRequest } from "./middleware";
 
 export interface IRouteHandler {
-  (req: Request, res: Response, next: NextFunction): Promise<void>;
+  (req: IAuthenticatedRequest, res: Response, next: NextFunction): Promise<void>;
 }

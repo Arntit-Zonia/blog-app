@@ -38,6 +38,7 @@ const userSchema = new Schema<IUserDocument>(
         }
       },
     },
+    tokens: [{ token: { type: String, required: true } }],
   },
   { timestamps: true }
 );

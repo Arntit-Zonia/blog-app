@@ -1,8 +1,7 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useForm, SubmitHandler } from "react-hook-form";
-
 import axios from "axios";
 
 interface ISignUpFormData {
@@ -16,10 +15,22 @@ const SignUp: FC = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setFocus,
   } = useForm<ISignUpFormData>();
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const navigate = useNavigate();
+  const errorAlertRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setFocus("username");
+  }, []);
+
+  useEffect(() => {
+    if (errorMessage && errorAlertRef.current) {
+      errorAlertRef.current.focus();
+    }
+  }, [errorMessage]);
 
   const handleFormSubmit: SubmitHandler<ISignUpFormData> = async (data) => {
     setIsLoading(true);
@@ -27,16 +38,13 @@ const SignUp: FC = () => {
 
     try {
       await axios.post("/signup", data);
-
       navigate("/sign-in");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error(error);
-
         setErrorMessage(error.response?.data?.error || "An error occurred during sign up. Please try again.");
       } else {
         console.error(error);
-
         setErrorMessage("An error occurred during sign up. Please try again.");
       }
     } finally {
@@ -73,13 +81,7 @@ const SignUp: FC = () => {
               <TextInput
                 type="email"
                 placeholder="Email"
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^\S+@\S+$/i,
-                    message: "Entered value does not match email format",
-                  },
-                })}
+                {...register("email", { required: "Email is required" })}
                 disabled={isLoading}
               />
               {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
@@ -111,7 +113,7 @@ const SignUp: FC = () => {
             </Link>
           </div>
           {errorMessage && (
-            <Alert className="mt-5" color="failure">
+            <Alert ref={errorAlertRef} className="mt-5" color="failure" aria-live="assertive" tabIndex={-1}>
               {errorMessage}
             </Alert>
           )}

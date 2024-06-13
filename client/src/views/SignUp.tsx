@@ -1,9 +1,14 @@
 import { FC, useState, ChangeEvent, FormEvent } from "react";
-import { Link } from "react-router-dom";
-import { Button, Label, TextInput } from "flowbite-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
+
 import axios from "axios";
 
 const SignUp: FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -15,20 +20,26 @@ const SignUp: FC = () => {
 
     setFormData((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: value.trim(),
     }));
   };
 
   const handleFormSubmit = async (e: FormEvent) => {
+    setIsLoading(true);
+    setErrorMessage(null);
+
+    e.preventDefault();
+
+    const { username, email, password } = formData;
+
+    if (!username || !email || !password) {
+      setErrorMessage("Please fill in all fields");
+      setIsLoading(false);
+
+      return console.error("Please fill in all fields");
+    }
+
     try {
-      e.preventDefault();
-
-      const { username, email, password } = formData;
-
-      if (!username || !email || !password) {
-        return console.error("Please fill in all fields");
-      }
-
       await axios.post("/signup", {
         username,
         email,
@@ -40,8 +51,20 @@ const SignUp: FC = () => {
         email: "",
         password: "",
       });
+
+      navigate("/sign-in");
     } catch (error) {
-      console.error(error);
+      if (axios.isAxiosError(error)) {
+        console.error(error);
+
+        setErrorMessage(error.response?.data?.error || "An error occurred during sign up. Please try again.");
+      } else {
+        console.error(error);
+
+        setErrorMessage("An error occurred during sign up. Please try again.");
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -67,11 +90,19 @@ const SignUp: FC = () => {
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
+                disabled={isLoading}
               />
             </div>
             <div>
               <Label value="Email" />
-              <TextInput type="text" placeholder="Email" name="email" value={formData.email} onChange={handleChange} />
+              <TextInput
+                type="email"
+                placeholder="Email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                disabled={isLoading}
+              />
             </div>
             <div>
               <Label value="Password" />
@@ -81,10 +112,17 @@ const SignUp: FC = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
+                disabled={isLoading}
               />
             </div>
-            <Button gradientDuoTone="purpleToPink" type="submit">
-              Sign Up
+            <Button gradientDuoTone="purpleToPink" type="submit" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Spinner size="sm" /> <span className="pl-3">Loading...</span>
+                </>
+              ) : (
+                "Sign Up"
+              )}
             </Button>
           </form>
           <div className="flex gap-2 text-sm mt-5">
@@ -93,6 +131,11 @@ const SignUp: FC = () => {
               Sign In
             </Link>
           </div>
+          {errorMessage && (
+            <Alert className="mt-5" color="failure">
+              {errorMessage}
+            </Alert>
+          )}
         </div>
       </div>
     </div>

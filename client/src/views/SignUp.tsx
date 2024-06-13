@@ -1,56 +1,32 @@
-import { FC, useState, ChangeEvent, FormEvent } from "react";
+import { FC, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 import axios from "axios";
 
+interface ISignUpFormData {
+  username: string;
+  email: string;
+  password: string;
+}
+
 const SignUp: FC = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ISignUpFormData>();
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value.trim(),
-    }));
-  };
-
-  const handleFormSubmit = async (e: FormEvent) => {
+  const handleFormSubmit: SubmitHandler<ISignUpFormData> = async (data) => {
     setIsLoading(true);
     setErrorMessage(null);
 
-    e.preventDefault();
-
-    const { username, email, password } = formData;
-
-    if (!username || !email || !password) {
-      setErrorMessage("Please fill in all fields");
-      setIsLoading(false);
-
-      return console.error("Please fill in all fields");
-    }
-
     try {
-      await axios.post("/signup", {
-        username,
-        email,
-        password,
-      });
-
-      setFormData({
-        username: "",
-        email: "",
-        password: "",
-      });
+      await axios.post("/signup", data);
 
       navigate("/sign-in");
     } catch (error) {
@@ -81,39 +57,42 @@ const SignUp: FC = () => {
           <p className="text-sm mt-5">You can sign up using your email and password or google account</p>
         </div>
         <div className="flex-1">
-          <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit(handleFormSubmit)}>
             <div>
               <Label value="Username" />
               <TextInput
                 type="text"
                 placeholder="Username"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
+                {...register("username", { required: "Username is required" })}
                 disabled={isLoading}
               />
+              {errors.username && <p className="text-red-500 text-sm">{errors.username.message}</p>}
             </div>
             <div>
               <Label value="Email" />
               <TextInput
                 type="email"
                 placeholder="Email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^\S+@\S+$/i,
+                    message: "Entered value does not match email format",
+                  },
+                })}
                 disabled={isLoading}
               />
+              {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
             </div>
             <div>
               <Label value="Password" />
               <TextInput
                 type="password"
                 placeholder="Password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
+                {...register("password", { required: "Password is required" })}
                 disabled={isLoading}
               />
+              {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
             </div>
             <Button gradientDuoTone="purpleToPink" type="submit" disabled={isLoading}>
               {isLoading ? (

@@ -8,6 +8,7 @@ import Home from "./views/Home";
 import Dashboard from "./views/Dashboard";
 import Projects from "./views/Projects";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 export const App: FC = () => {
   return (
@@ -21,6 +22,7 @@ export const App: FC = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/projects" element={<Projects />} />
       </Routes>
+      <Footer />
     </Router>
   );
 };

@@ -1,8 +1,8 @@
-import { userSchema } from ".";
-
 import jwt from "jsonwebtoken";
 
 import { IUserDocument } from "../../interfaces/user";
+
+import userSchema from "./schema";
 
 userSchema.methods.generateAuthToken = async function () {
   const user = this as IUserDocument;

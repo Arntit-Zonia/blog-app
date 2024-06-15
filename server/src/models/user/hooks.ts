@@ -1,7 +1,8 @@
 import bcrypt from "bcryptjs";
 
-import { userSchema } from ".";
 import { IUserDocument } from "../../interfaces/user";
+
+import userSchema from "./schema";
 
 userSchema.pre<IUserDocument>("save", async function (next) {
   const user = this;

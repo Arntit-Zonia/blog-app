@@ -2,8 +2,9 @@ import bcrypt from "bcryptjs";
 
 import User from ".";
 
-import { userSchema } from ".";
 import { IUserDocument } from "../../interfaces/user";
+
+import userSchema from "./schema";
 
 userSchema.statics.findByCredentials = async (email, password): Promise<IUserDocument> => {
   const user = await User.findOne({ email });

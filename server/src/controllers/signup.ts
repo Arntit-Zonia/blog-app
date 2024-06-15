@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import User from "../models/users";
 
-const signup = async (req: Request, res: Response) => {
+const signup = async (req: Request, res: Response): Promise<void> => {
   const user = new User(req.body);
 
   await user.save();

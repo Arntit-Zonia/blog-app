@@ -17,4 +17,15 @@ userSchema.methods.generateAuthToken = async function () {
   return token;
 };
 
+userSchema.methods.toJSON = function () {
+  const user = this as IUserDocument;
+
+  const userObject = user.toObject();
+
+  delete userObject.password;
+  delete userObject.tokens;
+
+  return userObject;
+};
+
 export default userSchema;

@@ -1,6 +1,6 @@
 import jwt, { JwtPayload, Secret } from "jsonwebtoken";
 
-import User from "../models/users";
+import User from "../models/user";
 
 import { IRouteHandler } from "../interfaces/controllers";
 

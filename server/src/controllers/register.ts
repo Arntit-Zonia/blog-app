@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import User from "../models/user";
 
-const signup = async (req: Request, res: Response): Promise<void> => {
+const register = async (req: Request, res: Response): Promise<void> => {
   const user = new User(req.body);
 
   await user.save();
@@ -10,4 +10,4 @@ const signup = async (req: Request, res: Response): Promise<void> => {
   res.status(201).send(user);
 };
 
-export default signup;
+export default register;

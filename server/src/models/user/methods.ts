@@ -4,6 +4,17 @@ import { IUserDocument } from "../../interfaces/user";
 
 import userSchema from "./schema";
 
+userSchema.methods.toJSON = function () {
+  const user = this as IUserDocument;
+
+  const userObject = user.toObject();
+
+  delete userObject.password;
+  delete userObject.tokens;
+
+  return userObject;
+};
+
 userSchema.methods.generateAuthToken = async function () {
   const user = this as IUserDocument;
   const secret = process.env.JWT_SECRET as jwt.Secret;
@@ -15,17 +26,6 @@ userSchema.methods.generateAuthToken = async function () {
   await user.save();
 
   return token;
-};
-
-userSchema.methods.toJSON = function () {
-  const user = this as IUserDocument;
-
-  const userObject = user.toObject();
-
-  delete userObject.password;
-  delete userObject.tokens;
-
-  return userObject;
 };
 
 export default userSchema;

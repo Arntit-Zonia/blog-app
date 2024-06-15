@@ -4,19 +4,19 @@ import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 
-interface ISignUpFormData {
+interface IRegisterFormData {
   username: string;
   email: string;
   password: string;
 }
 
-const SignUp: FC = () => {
+const Register: FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     setFocus,
-  } = useForm<ISignUpFormData>();
+  } = useForm<IRegisterFormData>();
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -32,13 +32,13 @@ const SignUp: FC = () => {
     }
   }, [errorMessage]);
 
-  const handleFormSubmit: SubmitHandler<ISignUpFormData> = async (data) => {
+  const handleFormSubmit: SubmitHandler<IRegisterFormData> = async (data) => {
     setIsLoading(true);
     setErrorMessage(null);
 
     try {
-      await axios.post("/signup", data);
-      navigate("/sign-in");
+      await axios.post("/register", data);
+      navigate("/user/login");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error(error);
@@ -123,4 +123,4 @@ const SignUp: FC = () => {
   );
 };
 
-export default SignUp;
+export default Register;

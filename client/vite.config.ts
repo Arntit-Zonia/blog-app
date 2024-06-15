@@ -5,7 +5,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   server: {
     proxy: {
-      "/signup": {
+      "/register": {
         target: "http://localhost:3000",
         secure: false,
       },

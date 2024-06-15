@@ -2,8 +2,8 @@ import { FC } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import About from "./views/About";
-import SignUp from "./views/SignUp";
-import SignIn from "./views/SignIn";
+import Register from "./views/Register";
+import Login from "./views/Login";
 import Home from "./views/Home";
 import Dashboard from "./views/Dashboard";
 import Projects from "./views/Projects";
@@ -17,8 +17,8 @@ export const App: FC = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/user/login" element={<Login />} />
+        <Route path="/user/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/projects" element={<Projects />} />
       </Routes>

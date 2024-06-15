@@ -1,13 +1,18 @@
 import { Schema, Model, model } from "mongoose";
 
 import validator from "validator";
-import bcrypt from "bcryptjs";
 
-import { IUserDocument } from "../interfaces/user";
+import { IUserDocument } from "../../interfaces/user";
 
-interface IUserModel extends Model<IUserDocument> {}
+import "./methods";
+import "./statics";
+import "./hooks";
 
-const userSchema = new Schema<IUserDocument>(
+interface IUserModel extends Model<IUserDocument> {
+  findByCredentials(email: string, password: string): IUserDocument;
+}
+
+export const userSchema = new Schema<IUserDocument>(
   {
     username: {
       type: String,
@@ -42,18 +47,6 @@ const userSchema = new Schema<IUserDocument>(
   },
   { timestamps: true }
 );
-
-userSchema.pre<IUserDocument>("save", async function (next) {
-  const user = this;
-
-  if (user.isModified("password")) {
-    const hashedPassword = await bcrypt.hash(user.password, 8);
-
-    user.password = hashedPassword;
-  }
-
-  next();
-});
 
 const User = model<IUserDocument, IUserModel>("User", userSchema);
 

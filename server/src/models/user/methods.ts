@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt, { Secret } from "jsonwebtoken";
 
 import { IUserDocument } from "../../interfaces/user";
 
@@ -17,7 +17,7 @@ userSchema.methods.toJSON = function () {
 
 userSchema.methods.generateAuthToken = async function () {
   const user = this as IUserDocument;
-  const secret = process.env.JWT_SECRET as jwt.Secret;
+  const secret = process.env.JWT_SECRET as Secret;
 
   const token = jwt.sign({ _id: user._id.toString() }, secret);
 

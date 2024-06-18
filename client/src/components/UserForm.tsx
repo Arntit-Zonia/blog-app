@@ -90,9 +90,9 @@ const UserForm: FC<IUserFormProps> = ({ formType, onSubmit }) => {
             <Spinner size="sm" /> <span className="pl-3">Loading...</span>
           </>
         ) : formType === "register" ? (
-          "Sign Up"
+          "Register"
         ) : (
-          "Sign In"
+          "Login"
         )}
       </Button>
       {errorMessage && (

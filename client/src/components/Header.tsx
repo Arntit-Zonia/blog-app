@@ -26,9 +26,9 @@ const Header: FC = () => {
         <Button className="w-12 h-10 hidden sm:inline" color="gray" pill>
           <FaMoon />
         </Button>
-        <Link to="/sign-in">
+        <Link to="/user/login">
           <Button gradientDuoTone="purpleToBlue" outline>
-            Sign In
+            Login
           </Button>
         </Link>
         <Navbar.Toggle />

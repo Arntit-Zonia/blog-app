@@ -20,7 +20,6 @@ const Register: FC = () => {
       <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5">
         <WelcomeMessage messageType="register" />
         <div className="flex-1">
-          {/* <p className="text-sm mt-5">You can sign up using your email and password or google account</p> */}
           <UserForm formType="register" onSubmit={handleRegisterSubmit} />
           <div className="flex gap-2 text-sm mt-5">
             <span className="">Have an account?</span>

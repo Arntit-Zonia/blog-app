@@ -3,3 +3,8 @@ export interface IUserFormData {
   email: string;
   password: string;
 }
+
+export interface IUser {
+  username: string;
+  email: string;
+}

@@ -1,8 +1,12 @@
-import { FC, useState, useEffect, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+
 import axios from "axios";
 
+import { loginStart, loginSuccess, loginFailure } from "../redux/slice/user";
+import { RootState } from "../redux/store";
 import { IUserFormData } from "../interfaces/user";
 
 interface IUserFormProps {
@@ -17,8 +21,8 @@ const UserForm: FC<IUserFormProps> = ({ formType, onSubmit }) => {
     formState: { errors },
     setFocus,
   } = useForm<IUserFormData>();
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const dispatch = useDispatch();
+  const { isLoading, errorMessage } = useSelector((state: RootState) => state.user);
   const errorAlertRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -32,21 +36,19 @@ const UserForm: FC<IUserFormProps> = ({ formType, onSubmit }) => {
   }, [errorMessage]);
 
   const handleFormSubmit: SubmitHandler<IUserFormData> = async (data) => {
-    setIsLoading(true);
-    setErrorMessage(null);
+    dispatch(loginStart());
 
     try {
       await onSubmit(data);
+      dispatch(loginSuccess(data));
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error(error);
-        setErrorMessage(error.response?.data?.error || "An error occurred. Please try again.");
+        dispatch(loginFailure(error.response?.data?.error || "An error occurred. Please try again."));
       } else {
         console.error(error);
-        setErrorMessage("An error occurred. Please try again.");
+        dispatch(loginFailure("An error occurred. Please try again."));
       }
-    } finally {
-      setIsLoading(false);
     }
   };
 

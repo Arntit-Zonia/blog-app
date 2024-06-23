@@ -9,6 +9,8 @@ import { loginStart, loginSuccess, loginFailure } from "../redux/slice/user";
 import { RootState } from "../redux/store";
 import { IUserFormData } from "../interfaces/user";
 
+import OAuth from "./OAuth";
+
 interface IUserFormProps {
   formType: "register" | "login";
   onSubmit: (data: IUserFormData) => Promise<void>;
@@ -102,6 +104,7 @@ const UserForm: FC<IUserFormProps> = ({ formType, onSubmit }) => {
           {errorMessage}
         </Alert>
       )}
+      <OAuth />
     </form>
   );
 };

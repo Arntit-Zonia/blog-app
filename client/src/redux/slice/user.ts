@@ -39,6 +39,7 @@ export const userSlice = createSlice({
     },
     setUserProfile: (state, action: PayloadAction<IProfile>) => {
       state.profile = action.payload;
+      state.errorMessage = null;
     },
   },
 });

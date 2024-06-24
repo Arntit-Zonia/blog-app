@@ -46,9 +46,11 @@ const UserForm: FC<IUserFormProps> = ({ formType, onSubmit }) => {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error(error);
+
         dispatch(loginFailure(error.response?.data?.error || "An error occurred. Please try again."));
       } else {
         console.error(error);
+
         dispatch(loginFailure("An error occurred. Please try again."));
       }
     }

@@ -6,7 +6,7 @@ import { AiFillGoogleCircle } from "react-icons/ai";
 
 import axios from "axios";
 
-import { setUserProfile } from "../redux/slice/user";
+import { loginFailure, setUserProfile } from "../redux/slice/user";
 
 const OAuth = () => {
   const dispatch = useDispatch();
@@ -29,8 +29,13 @@ const OAuth = () => {
           throw new Error("Failed to fetch user profile");
         }
 
-        // TODO: setup server controller for this route
-        // await axios.post("/oath/login", userProfile.data);
+        const userData = {
+          username: userProfile.data.name,
+          email: userProfile.data.email,
+          tokens: [{ token: accessToken }],
+        };
+
+        await axios.post("/oath/login", userData);
 
         console.log({ userProfile });
 
@@ -38,11 +43,19 @@ const OAuth = () => {
 
         navigate("/");
       } catch (error) {
-        console.error("Error fetching profile info:", error);
+        if (axios.isAxiosError(error)) {
+          console.error(error);
+
+          dispatch(loginFailure(error.response?.data || "An error occurred. Please try again."));
+        } else {
+          console.error(error);
+
+          dispatch(loginFailure("Error fetching profile information"));
+        }
       }
     },
     onError: () => {
-      console.log("Login Failed");
+      console.error("Login Failed");
     },
   });
 

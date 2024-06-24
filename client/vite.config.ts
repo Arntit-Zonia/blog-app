@@ -13,6 +13,10 @@ export default defineConfig({
         target: "http://localhost:3000",
         secure: false,
       },
+      "/oath/login": {
+        target: "http://localhost:3000",
+        secure: false,
+      },
     },
   },
   plugins: [react()],

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
 import { Button } from "flowbite-react";
@@ -9,6 +10,7 @@ import { setUserProfile } from "../redux/slice/user";
 
 const OAuth = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleOAth = useGoogleLogin({
     onSuccess: async (res) => {
@@ -26,6 +28,8 @@ const OAuth = () => {
         console.log({ userProfile });
 
         dispatch(setUserProfile(userProfile.data));
+
+        navigate("/");
       } catch (error) {
         console.error("Error fetching profile info:", error);
       }

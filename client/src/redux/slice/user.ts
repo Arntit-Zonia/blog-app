@@ -3,16 +3,21 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 import { IUserFormData } from "../../interfaces/user";
 
+interface IProfile {
+  picture: string;
+}
 interface IUserState {
   currentUser: IUserFormData | null;
   errorMessage: string | null;
   isLoading: boolean;
+  profile: IProfile | null;
 }
 
 const initialState: IUserState = {
   currentUser: null,
   errorMessage: null,
   isLoading: false,
+  profile: null,
 };
 
 export const userSlice = createSlice({
@@ -31,9 +36,12 @@ export const userSlice = createSlice({
       state.errorMessage = action.payload;
       state.isLoading = false;
     },
+    setUserProfile: (state, action: PayloadAction<IProfile>) => {
+      state.profile = action.payload;
+    },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure } = userSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, setUserProfile } = userSlice.actions;
 
 export default userSlice.reducer;

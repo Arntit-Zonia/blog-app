@@ -5,12 +5,12 @@ import axios from "axios";
 import UserForm from "../components/UserForm";
 import WelcomeMessage from "../components/WelcomeMessage";
 
-import { IUserFormData } from "../interfaces/user";
+import { IUser } from "../interfaces/user";
 
 const Register: FC = () => {
   const navigate = useNavigate();
 
-  const handleRegisterSubmit = async (data: IUserFormData) => {
+  const handleRegisterSubmit = async (data: IUser) => {
     await axios.post("/register", data);
     navigate("/user/login");
   };

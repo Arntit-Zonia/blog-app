@@ -7,13 +7,13 @@ import axios from "axios";
 
 import { loginStart, loginSuccess, loginFailure } from "../redux/slice/user";
 import { RootState } from "../redux/store";
-import { IUserFormData } from "../interfaces/user";
+import { IUser } from "../interfaces/user";
 
 import OAuth from "./OAuth";
 
 interface IUserFormProps {
   formType: "register" | "login";
-  onSubmit: (data: IUserFormData) => Promise<void>;
+  onSubmit: (data: IUser) => Promise<void>;
 }
 
 const UserForm: FC<IUserFormProps> = ({ formType, onSubmit }) => {
@@ -22,7 +22,7 @@ const UserForm: FC<IUserFormProps> = ({ formType, onSubmit }) => {
     handleSubmit,
     formState: { errors },
     setFocus,
-  } = useForm<IUserFormData>();
+  } = useForm<IUser>();
   const dispatch = useDispatch();
   const { isLoading, errorMessage } = useSelector((state: RootState) => state.user);
   const errorAlertRef = useRef<HTMLDivElement>(null);
@@ -37,7 +37,7 @@ const UserForm: FC<IUserFormProps> = ({ formType, onSubmit }) => {
     }
   }, [errorMessage]);
 
-  const handleFormSubmit: SubmitHandler<IUserFormData> = async (data) => {
+  const handleFormSubmit: SubmitHandler<IUser> = async (data) => {
     dispatch(loginStart());
 
     try {

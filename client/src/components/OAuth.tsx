@@ -25,6 +25,13 @@ const OAuth = () => {
           },
         });
 
+        if (!userProfile) {
+          throw new Error("Failed to fetch user profile");
+        }
+
+        // TODO: setup server controller for this route
+        // await axios.post("/oath/login", userProfile.data);
+
         console.log({ userProfile });
 
         dispatch(setUserProfile(userProfile.data));

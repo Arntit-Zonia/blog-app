@@ -6,12 +6,12 @@ import axios from "axios";
 import UserForm from "../components/UserForm";
 import WelcomeMessage from "../components/WelcomeMessage";
 
-import { IUserFormData } from "../interfaces/user";
+import { IUser } from "../interfaces/user";
 
 const Login: FC = () => {
   const navigate = useNavigate();
 
-  const handleLoginSubmit = async (data: IUserFormData) => {
+  const handleLoginSubmit = async (data: IUser) => {
     await axios.post("/login", data);
     navigate("/dashboard");
   };

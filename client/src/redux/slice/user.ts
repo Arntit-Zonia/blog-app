@@ -32,18 +32,15 @@ export const userSlice = createSlice({
     loginSuccess: (state, action: PayloadAction<IUser>) => {
       state.currentUser = action.payload;
       state.isLoading = false;
+      state.errorMessage = null;
     },
     loginFailure: (state, action: PayloadAction<string>) => {
       state.errorMessage = action.payload;
       state.isLoading = false;
     },
-    setUserProfile: (state, action: PayloadAction<IProfile>) => {
-      state.profile = action.payload;
-      state.errorMessage = null;
-    },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, setUserProfile } = userSlice.actions;
+export const { loginStart, loginSuccess, loginFailure } = userSlice.actions;
 
 export default userSlice.reducer;

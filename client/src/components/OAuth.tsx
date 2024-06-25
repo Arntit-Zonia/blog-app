@@ -6,7 +6,7 @@ import { AiFillGoogleCircle } from "react-icons/ai";
 
 import axios from "axios";
 
-import { loginFailure, setUserProfile } from "../redux/slice/user";
+import { loginFailure, loginSuccess } from "../redux/slice/user";
 
 const OAuth = () => {
   const dispatch = useDispatch();
@@ -33,13 +33,14 @@ const OAuth = () => {
           username: userProfile.data.name,
           email: userProfile.data.email,
           tokens: [{ token: accessToken }],
+          profilePicture: userProfile.data.picture,
         };
 
         await axios.post("/oath/login", userData);
 
         console.log({ userProfile });
 
-        dispatch(setUserProfile(userProfile.data));
+        dispatch(loginSuccess(userProfile.data));
 
         navigate("/");
       } catch (error) {

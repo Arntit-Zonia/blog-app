@@ -13,7 +13,7 @@ const OAuthLogin = async (req: Request, res: Response): Promise<void> => {
     return;
   }
 
-  const { username, email, tokens } = req.body;
+  const { username, email, tokens, profilePicture } = req.body;
 
   const user = new User({
     username,
@@ -21,6 +21,7 @@ const OAuthLogin = async (req: Request, res: Response): Promise<void> => {
     // initial google account password
     password: Math.random().toString(36).slice(-8),
     tokens,
+    profilePicture,
   });
 
   await user.save();

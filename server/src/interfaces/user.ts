@@ -7,4 +7,5 @@ export interface IUserDocument extends Document {
   password: string;
   tokens: { token: string }[];
   generateAuthToken(): Promise<string>;
+  profilePicture: string;
 }

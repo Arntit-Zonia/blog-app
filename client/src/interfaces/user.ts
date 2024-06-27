@@ -3,4 +3,6 @@ export interface IUser {
   email: string;
   password?: string;
   profilePicture?: string;
+  tokens?: { token: string }[];
+  currentToken?: string;
 }

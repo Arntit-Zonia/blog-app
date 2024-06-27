@@ -21,8 +21,7 @@ const Header: FC = () => {
 
     dispatch(logout());
 
-    // TODO: logout user from server
-    await axios.delete("/user/logout");
+    await axios.post("/user/logout", currentUser);
   };
 
   return (

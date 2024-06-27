@@ -33,6 +33,7 @@ const OAuth = () => {
           username: userProfile.data.name,
           email: userProfile.data.email,
           tokens: [{ token: accessToken }],
+          currentToken: accessToken,
           profilePicture: userProfile.data.picture,
         };
 

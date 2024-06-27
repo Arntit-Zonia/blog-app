@@ -38,9 +38,9 @@ const OAuth = () => {
 
         await axios.post("/oath/login", userData);
 
-        console.log({ userProfile });
+        console.log({ userData });
 
-        dispatch(loginSuccess(userProfile.data));
+        dispatch(loginSuccess(userData));
 
         navigate("/");
       } catch (error) {

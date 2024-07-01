@@ -9,6 +9,7 @@ import Dashboard from "./views/Dashboard";
 import Projects from "./views/Projects";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import PrivateRoute from "./components/PrivateRoute";
 
 export const App: FC = () => {
   return (
@@ -19,7 +20,9 @@ export const App: FC = () => {
         <Route path="/about" element={<About />} />
         <Route path="/user/login" element={<Login />} />
         <Route path="/user/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
         <Route path="/projects" element={<Projects />} />
       </Routes>
       <Footer />

@@ -37,7 +37,7 @@ const OAuth = () => {
           profilePicture: userProfile.data.picture,
         };
 
-        await axios.post("/oath/login", userData);
+        await axios.post("/oath/google", userData);
 
         console.log({ userData });
 

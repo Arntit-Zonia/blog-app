@@ -2,13 +2,23 @@ import { Request, Response } from "express";
 
 import User from "../models/user";
 
-const OAuthLogin = async (req: Request, res: Response): Promise<void> => {
+// TODO: update file name as it handles both login and register scenarios
+const OAuth = async (req: Request, res: Response): Promise<void> => {
   console.log("body", req.body);
 
   const existingUser = await User.findOne({ email: req.body.email });
 
   if (existingUser) {
-    res.status(404).send("User already exists");
+    console.log("testing existingUser ====>", {
+      existingUserTokens: existingUser.tokens,
+      currentToken: req.body.currentToken,
+    });
+
+    existingUser.tokens.push({ token: req.body.currentToken });
+
+    await existingUser.save();
+
+    res.status(200).send(existingUser);
 
     return;
   }
@@ -18,7 +28,7 @@ const OAuthLogin = async (req: Request, res: Response): Promise<void> => {
   const user = new User({
     username,
     email,
-    // initial google account password
+    // generate random password
     password: Math.random().toString(36).slice(-8),
     tokens,
     profilePicture,
@@ -29,4 +39,4 @@ const OAuthLogin = async (req: Request, res: Response): Promise<void> => {
   res.status(201).send(user);
 };
 
-export default OAuthLogin;
+export default OAuth;

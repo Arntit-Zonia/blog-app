@@ -4,17 +4,19 @@ import { Link, useLocation } from "react-router-dom";
 import { googleLogout } from "@react-oauth/google";
 import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { FaMoon } from "react-icons/fa6";
+import { FaMoon, FaSun } from "react-icons/fa6";
 
 import axios from "axios";
 
 import { RootState } from "../redux/store";
 import { logout } from "../redux/slice/user";
+import { toggleTheme } from "../redux/theme/theme";
 
 const Header: FC = () => {
   const path = useLocation().pathname;
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state: RootState) => state.user);
+  const { theme } = useSelector((state: RootState) => state.theme);
 
   const handleLogout = async (): Promise<void> => {
     await googleLogout();
@@ -22,6 +24,10 @@ const Header: FC = () => {
     dispatch(logout());
 
     await axios.post("/user/logout", currentUser);
+  };
+
+  const handleTheme = (): void => {
+    dispatch(toggleTheme());
   };
 
   return (
@@ -39,8 +45,8 @@ const Header: FC = () => {
         <AiOutlineSearch />
       </Button>
       <div className="flex gap-2 md:order-2">
-        <Button className="w-12 h-10 hidden sm:inline" color="gray" pill>
-          <FaMoon />
+        <Button className="w-12 h-10 hidden sm:inline" color="gray" pill onClick={handleTheme}>
+          {theme === "light" ? <FaSun /> : <FaMoon />}
         </Button>
         {currentUser ? (
           <Dropdown arrowIcon={false} inline label={<Avatar alt="user" img={currentUser.profilePicture} rounded />}>

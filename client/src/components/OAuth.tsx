@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
@@ -8,7 +9,7 @@ import axios from "axios";
 
 import { loginFailure, loginSuccess } from "../redux/slice/user";
 
-const OAuth = () => {
+const OAuth: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

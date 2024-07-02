@@ -19,7 +19,7 @@ const Sidebar: FC = () => {
   const handleLogout = async (): Promise<void> => {
     dispatch(logout());
 
-    await axios.post("/user/logout", currentUser);
+    await axios.post("/logout", currentUser);
   };
 
   return (

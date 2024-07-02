@@ -11,6 +11,6 @@ const router: Router = Router();
 router.post("/register", errorHandler(register));
 router.post("/login", errorHandler(login));
 router.post("/oath/google", errorHandler(OAuth));
-router.post("/user/logout", errorHandler(logout));
+router.post("/logout", errorHandler(logout));
 
 export default router;

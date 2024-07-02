@@ -23,7 +23,7 @@ export default defineConfig(({ mode }) => {
           target: SERVER_PORT,
           secure: false,
         },
-        "/user/logout": {
+        "/logout": {
           target: SERVER_PORT,
           secure: false,
         },

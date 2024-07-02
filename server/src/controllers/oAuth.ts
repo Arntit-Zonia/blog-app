@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 
 import User from "../models/user";
 
-// TODO: update file name as it handles both login and register scenarios
 const OAuth = async (req: Request, res: Response): Promise<void> => {
   console.log("body", req.body);
 

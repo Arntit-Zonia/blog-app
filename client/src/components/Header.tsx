@@ -23,7 +23,7 @@ const Header: FC = () => {
 
     dispatch(logout());
 
-    await axios.post("/logout", currentUser);
+    await axios.post("/logout", currentUser, { withCredentials: true });
   };
 
   const handleTheme = (): void => {

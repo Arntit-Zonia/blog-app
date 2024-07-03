@@ -19,7 +19,7 @@ userSchema.methods.generateAuthToken = async function () {
   const user = this as IUserDocument;
   const secret = process.env.JWT_SECRET as Secret;
 
-  const token = jwt.sign({ _id: user._id.toString() }, secret);
+  const token = jwt.sign({ _id: user._id.toString() }, secret, { expiresIn: "1h" });
 
   user.tokens.push({ token });
 

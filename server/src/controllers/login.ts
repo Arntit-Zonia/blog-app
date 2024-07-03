@@ -13,7 +13,7 @@ const login = async (req: Request, res: Response): Promise<void> => {
     return;
   }
 
-  setTokenCookie(res, token);
+  setTokenCookie(res, "token", token);
 
   res.status(200).send({ user });
 };

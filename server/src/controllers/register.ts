@@ -9,7 +9,7 @@ const register = async (req: Request, res: Response): Promise<void> => {
 
   await user.save();
 
-  setTokenCookie(res, token);
+  setTokenCookie(res, "token", token);
 
   res.status(201).send({ user });
 };

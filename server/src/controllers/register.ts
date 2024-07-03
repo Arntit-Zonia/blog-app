@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import User from "../models/user";
+import setTokenCookie from "../utils/setCookie";
 
 const register = async (req: Request, res: Response): Promise<void> => {
   const user = new User(req.body);
@@ -8,7 +9,9 @@ const register = async (req: Request, res: Response): Promise<void> => {
 
   await user.save();
 
-  res.status(201).send({ user, token });
+  setTokenCookie(res, token);
+
+  res.status(201).send({ user });
 };
 
 export default register;

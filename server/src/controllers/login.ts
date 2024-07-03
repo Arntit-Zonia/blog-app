@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import User from "../models/user";
+import setTokenCookie from "../utils/setCookie";
 
 const login = async (req: Request, res: Response): Promise<void> => {
   const user = await User.findByCredentials(req.body.email, req.body.password);
@@ -12,7 +13,9 @@ const login = async (req: Request, res: Response): Promise<void> => {
     return;
   }
 
-  res.status(200).send({ user, token });
+  setTokenCookie(res, token);
+
+  res.status(200).send({ user });
 };
 
 export default login;

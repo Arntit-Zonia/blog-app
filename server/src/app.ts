@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import userRouter from "./routes/user";
 import errorHandler from "./middleware/errorHandler";
@@ -14,6 +15,7 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));

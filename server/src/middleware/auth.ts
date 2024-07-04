@@ -1,11 +1,17 @@
 import jwt, { JwtPayload, Secret } from "jsonwebtoken";
-import { Response, NextFunction } from "express";
+import { Response, NextFunction, Request } from "express";
+
+import { IUserDocument } from "../interfaces/user";
 
 import User from "../models/user";
-import { IRouteHandler } from "../interfaces/controllers";
-import { IAuthenticatedRequest } from "../interfaces/middleware";
 
-const auth: IRouteHandler = async (req: IAuthenticatedRequest, res: Response, next: NextFunction) => {
+interface IAuthReq extends Request {
+  body: IUserDocument;
+  user?: IUserDocument;
+  token?: string;
+}
+
+const auth = async (req: IAuthReq, res: Response, next: NextFunction) => {
   try {
     const token = req.cookies.token;
     const secret = process.env.JWT_SECRET as Secret;

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import User from "../models/user";
+import setTokenCookie from "../utils/setCookie";
 
 const OAuth = async (req: Request, res: Response): Promise<void> => {
   console.log("body", req.body);
@@ -10,10 +11,10 @@ const OAuth = async (req: Request, res: Response): Promise<void> => {
   if (existingUser) {
     console.log("testing existingUser ====>", {
       existingUserTokens: existingUser.tokens,
-      currentToken: req.body.currentToken,
+      token: req.body.token,
     });
 
-    existingUser.tokens.push({ token: req.body.currentToken });
+    existingUser.tokens.push({ token: req.body.token });
 
     await existingUser.save();
 
@@ -22,18 +23,22 @@ const OAuth = async (req: Request, res: Response): Promise<void> => {
     return;
   }
 
-  const { username, email, tokens, profilePicture } = req.body;
+  const { username, email, profilePicture, token, isOath } = req.body;
 
   const user = new User({
     username,
     email,
     // generate random password
     password: Math.random().toString(36).slice(-8),
-    tokens,
     profilePicture,
+    isOath,
   });
 
+  user.tokens.push({ token });
+
   await user.save();
+
+  setTokenCookie(res, "token", token);
 
   res.status(201).send(user);
 };

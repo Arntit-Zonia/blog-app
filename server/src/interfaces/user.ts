@@ -9,5 +9,5 @@ export interface IUserDocument extends Document {
   currentToken: string;
   generateAuthToken(): Promise<string>;
   profilePicture: string;
-  isOath: boolean;
+  isOAuth: boolean;
 }

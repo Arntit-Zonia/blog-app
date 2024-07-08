@@ -3,5 +3,5 @@ export interface IUser {
   email: string;
   password?: string;
   profilePicture?: string;
-  isOath?: boolean;
+  isOAuth?: boolean;
 }

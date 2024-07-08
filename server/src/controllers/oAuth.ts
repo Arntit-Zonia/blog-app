@@ -23,7 +23,7 @@ const OAuth = async (req: Request, res: Response): Promise<void> => {
     return;
   }
 
-  const { username, email, profilePicture, token, isOath } = req.body;
+  const { username, email, profilePicture, token, isOAuth } = req.body;
 
   const user = new User({
     username,
@@ -31,7 +31,7 @@ const OAuth = async (req: Request, res: Response): Promise<void> => {
     // generate random password
     password: Math.random().toString(36).slice(-8),
     profilePicture,
-    isOath,
+    isOAuth,
   });
 
   user.tokens.push({ token });

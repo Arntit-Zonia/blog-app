@@ -34,13 +34,12 @@ const OAuth: FC = () => {
           username: userProfile.data.name,
           email: userProfile.data.email,
           profilePicture: userProfile.data.picture,
-          isOath: true,
+          isOAuth: true,
         };
-        const token = accessToken;
-        // add isOath to userData to distinguish from regular requests
-        await axios.post("/oath/google", { ...userData, token });
 
-        console.log({ userData });
+        await axios.post("/oath/google", { ...userData, token: accessToken });
+
+        console.log({ ...userData, token: accessToken });
 
         dispatch(loginSuccess(userData));
 

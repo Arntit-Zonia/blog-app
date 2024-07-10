@@ -18,8 +18,19 @@ const auth = async (req: IAuthReq, res: Response, next: NextFunction) => {
 
     if (!token || !secret) throw new Error(!token ? "No token provided" : "No secret provided");
 
-    const verifiedToken = jwt.verify(token, secret) as JwtPayload;
-    const user = await User.findOne({ _id: verifiedToken._id, "tokens.token": token });
+    let user: IUserDocument | null = null;
+
+    if (req.body.isOAuth) {
+      user = await User.findOne({ email: req.body.email, "tokens.token": token });
+    } else {
+      const verifiedToken = jwt.verify(token, secret) as JwtPayload;
+
+      if (!verifiedToken) {
+        throw new Error("Invalid token");
+      }
+
+      user = await User.findOne({ _id: verifiedToken._id, "tokens.token": token });
+    }
 
     if (!user) {
       throw new Error("User not found");

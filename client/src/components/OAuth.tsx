@@ -16,8 +16,6 @@ const OAuth: FC = () => {
   const handleOAth = useGoogleLogin({
     onSuccess: async (res) => {
       try {
-        console.log(res);
-
         const accessToken = res.access_token;
 
         const userProfile = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {

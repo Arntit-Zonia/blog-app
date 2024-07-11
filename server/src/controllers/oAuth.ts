@@ -4,12 +4,16 @@ import User from "../models/user";
 import setTokenCookie from "../utils/setCookie";
 
 const OAuth = async (req: Request, res: Response): Promise<void> => {
-  const { username, email, profilePicture, token, isOAuth } = req.body;
+  const { email, token } = req.body;
 
-  const existingUser = await User.findOne({ email: req.body.email });
+  if (!email || !token) {
+    !email ? res.status(400).send("Email is required") : res.status(400).send("Token is required");
+  }
+
+  const existingUser = await User.findOne({ email });
 
   if (existingUser) {
-    existingUser.tokens.push({ token: req.body.token });
+    existingUser.tokens.push({ token });
 
     await existingUser.save();
 
@@ -21,12 +25,12 @@ const OAuth = async (req: Request, res: Response): Promise<void> => {
   }
 
   const user = new User({
-    username,
+    username: req.body.username,
     email,
     // generate random password
     password: Math.random().toString(36).slice(-8),
-    profilePicture,
-    isOAuth,
+    profilePicture: req.body.profilePicture,
+    isOAuth: req.body.isOAuth,
   });
 
   user.tokens.push({ token });

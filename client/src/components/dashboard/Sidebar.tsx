@@ -1,26 +1,15 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { Sidebar as SidebarWrapper } from "flowbite-react";
 import { HiArrowSmRight, HiUser } from "react-icons/hi";
 
-import axios from "axios";
-
-import { logout } from "../../redux/slice/user";
-import { RootState } from "../../redux/store";
-
 import useQueryParam from "../../hooks/useQueryParam";
+import useLogout from "../../hooks/useLogout";
 
 const Sidebar: FC = () => {
-  const dispatch = useDispatch();
   const tab = useQueryParam("tab");
-  const { currentUser } = useSelector((state: RootState) => state.user);
 
-  const handleLogout = async (): Promise<void> => {
-    dispatch(logout());
-
-    await axios.post("/logout", currentUser);
-  };
+  const handleLogout = useLogout();
 
   return (
     <SidebarWrapper className="w-full md:w-56">

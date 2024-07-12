@@ -13,6 +13,7 @@ const Login: FC = () => {
 
   const handleLoginSubmit = async (data: IUser) => {
     await axios.post("/login", data);
+
     navigate("/dashboard");
   };
 

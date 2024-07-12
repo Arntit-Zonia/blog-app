@@ -41,7 +41,7 @@ const OAuth: FC = () => {
 
         dispatch(loginSuccess(userData));
 
-        navigate("/");
+        navigate("/dashboard");
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.error(error);

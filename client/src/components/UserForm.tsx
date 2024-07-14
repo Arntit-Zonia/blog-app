@@ -24,7 +24,7 @@ const UserForm: FC<IUserFormProps> = ({ formType, onSubmit }) => {
     setFocus,
   } = useForm<IUser>();
   const dispatch = useDispatch();
-  const { isLoading, errorMessage } = useSelector((state: RootState) => state.user);
+  const { isLoading, errorMessage, currentUser } = useSelector((state: RootState) => state.user);
   const errorAlertRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const UserForm: FC<IUserFormProps> = ({ formType, onSubmit }) => {
 
     try {
       await onSubmit(data);
-      dispatch(loginSuccess(data));
+      dispatch(loginSuccess({ ...currentUser, ...data }));
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error(error);

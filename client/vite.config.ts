@@ -27,6 +27,10 @@ export default defineConfig(({ mode }) => {
           target: SERVER_PORT,
           secure: false,
         },
+        "/update/me": {
+          target: SERVER_PORT,
+          secure: false,
+        },
       },
     },
     plugins: [react()],

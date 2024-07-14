@@ -2,6 +2,8 @@ import { FC } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useSelector } from "react-redux";
 
+import axios from "axios";
+
 import useLogout from "../../hooks/useLogout";
 import { RootState } from "../../redux/store";
 import { Button, TextInput } from "flowbite-react";
@@ -16,9 +18,11 @@ const Profile: FC = () => {
   } = useForm<IUser>();
   const handleLogout = useLogout();
 
-  // TODO: implement handleFormSubmit
-  const handleFormSubmit: SubmitHandler<IUser> = (data) => {
-    console.log("Form data", data);
+  // TODO: add server error validation
+  const handleFormSubmit: SubmitHandler<IUser> = async (data) => {
+    console.log("Form data", { ...currentUser, ...data });
+
+    await axios.patch("/update/me", { ...currentUser, ...data }, { withCredentials: true });
   };
 
   // TODO: implement handleDelete

@@ -31,7 +31,7 @@ const OAuth: FC = () => {
         const userData = {
           username: userProfile.data.name,
           email: userProfile.data.email,
-          profilePicture: userProfile.data.picture,
+          profilePicture: userProfile.data?.picture,
           isOAuth: true,
         };
 
